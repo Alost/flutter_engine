@@ -11,3 +11,4 @@ nproc
 cat /proc/cpuinfo
 free -h
 df -h
+df .

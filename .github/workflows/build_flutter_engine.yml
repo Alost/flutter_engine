@@ -20,6 +20,7 @@ jobs:
           path: ./flutter/engine/src/lib
 
   build_arm64:
+    if: false
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
@@ -38,6 +39,7 @@ jobs:
           path: ./flutter/engine/src/lib
 
   build_x64:
+    if: false
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
