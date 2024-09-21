@@ -11,7 +11,7 @@ inputs:
     default: 'ARM'
 runs:
   using: 'composite'
-  default:
+  defaults:
     shell: bash
   steps:
     - uses: ./.github/actions/free_disk_space
