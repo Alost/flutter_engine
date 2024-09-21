@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $ROOT_DIR/scripts/set_env.sh
+source ${ROOT_DIR:-$PWD}/scripts/set_env.sh
 
 log "build start"
 
