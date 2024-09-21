@@ -22,6 +22,7 @@ git clone --depth 1 https://github.com/flutter/engine.git
 
 # 切换版本
 ($ROOT_DIR/scripts/modify_source.sh "1")
+git config --global user.email "flutter@example.com" && git config --global user.name "flutter"
 git add . && git commit -am "modify"
 
 # 同步依赖

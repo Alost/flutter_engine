@@ -15,6 +15,8 @@ if [ "\$1" == "1" ]; then
     cd $ROOT_DIR/source/engine
     git checkout 3.22.3
 
+    log "checkout source finish"
     exit 0
 fi
 
+log "modify source finish"
