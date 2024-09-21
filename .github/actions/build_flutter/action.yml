@@ -9,10 +9,9 @@ inputs:
     description: 'artifact name'
     required: true
     default: 'ARM'
+shell: bash
 runs:
   using: 'composite'
-  defaults:
-    shell: bash
   steps:
     - uses: ./.github/actions/free_disk_space
 
