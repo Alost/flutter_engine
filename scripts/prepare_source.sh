@@ -40,10 +40,11 @@ solutions = [
   },
 ]
 EOL
+cat .gclient
 gclient sync
 
 # 修改代码
 ($ROOT_DIR/scripts/modify_source.sh "gclient_sync")
 
 log "prepare source finish"
-cat .gclient
+
