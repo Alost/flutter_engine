@@ -3,9 +3,6 @@
 set -euv
 set -o pipefail
 
-# 让整个脚本的输出不被缓冲
-exec stdbuf -oL bash "$0" "$@"
-
 export ROOT_DIR="${ROOT_DIR:-$PWD}"
 echo "ROOT_DIR=$ROOT_DIR" >> $GITHUB_ENV
 
