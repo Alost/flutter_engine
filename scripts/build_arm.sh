@@ -11,7 +11,9 @@ source $ROOT_DIR/scripts/common.sh
 log "build arm start"
 
 cd $ROOT_DIR/flutter/engine/src
-flutter/tools/gn --no-goma --no-prebuilt-dart-sdk --unoptimized --no-lto --android --runtime-mode release --android-cpu arm
+
+GN_OPTS = --no-goma --no-build-embedder-examples --no-enable-unittests --no-dart-version-git-info --unoptimized --no-lto
+flutter/tools/gn $GN_OPTS --no-prebuilt-dart-sdk --android --runtime-mode release --android-cpu arm
 ninja -C out/android_release
 
 mkdir -p lib/armeabi-v7a/

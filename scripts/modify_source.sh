@@ -36,10 +36,12 @@ replace_lines_with_string() {
     rm "$temp_file"
 }
 
+VERSION = 3.22.3
+
 if [ "$1" == "git_clone" ]; then
     cd $ROOT_DIR/flutter/source/engine
-    git checkout 3.22.3
-
+    git checkout $VERSION
+    echo "VERSION=$VERSION" >> $GITHUB_ENV
     log "checkout source finish"
     exit 0
 fi
