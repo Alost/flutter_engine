@@ -11,7 +11,7 @@ jobs:
           ./scripts/prepare_environment.sh
       - name: Prepare Source
         run: ./scripts/prepare_source.sh
-      - name: Build ARM
+      - name: Build
         run: ./scripts/build_arm.sh
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
@@ -19,15 +19,63 @@ jobs:
           name: ARM
           path: ./flutter/engine/src/lib
 
+  build_arm64:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare Environment
+        run: |
+          chmod +x ./scripts/*.sh
+          ./scripts/prepare_environment.sh
+      - name: Prepare Source
+        run: ./scripts/prepare_source.sh
+      - name: Build
+        run: ./scripts/build_arm64.sh
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ARM64
+          path: ./flutter/engine/src/lib
+
+  build_x64:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Prepare Environment
+        run: |
+          chmod +x ./scripts/*.sh
+          ./scripts/prepare_environment.sh
+      - name: Prepare Source
+        run: ./scripts/prepare_source.sh
+      - name: Build
+        run: ./scripts/build_x64.sh
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: X64
+          path: ./flutter/engine/src/lib
+
   collect_and_release:
     runs-on: ubuntu-22.04
     needs: [build_arm]
+    # needs: [build_arm, build_arm64, build_x64]
     steps:
       - uses: actions/checkout@v3
       - name: Collect ARM Artifacts
         uses: actions/download-artifact@v3
         with:
           name: ARM
+        continue-on-error: true
+      - name: Collect ARM64 Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ARM64
+        continue-on-error: true
+      - name: Collect X64 Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: X64
+        continue-on-error: true
       - name: Compress Artifacts
         run:  |
           chmod +x ./scripts/*.sh
