@@ -38,10 +38,10 @@ runs:
 
     - name: Build
       shell: bash
-      run: ./scripts/{{ inputs.build_script }}
+      run: ./scripts/${{ inputs.build_script }}
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: {{ inputs.artifact_name }}
+        name: ${{ inputs.artifact_name }}
         path: ./flutter/engine/src/lib
