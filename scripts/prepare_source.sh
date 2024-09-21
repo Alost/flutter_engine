@@ -22,7 +22,7 @@ mkdir $ROOT_DIR/flutter/source; cd $ROOT_DIR/flutter/source
 git clone --depth 1 https://github.com/flutter/engine.git
 
 # 切换版本
-($ROOT_DIR/scripts/modify_source.sh "1")
+($ROOT_DIR/scripts/modify_source.sh "git_clone")
 git config --global user.email "flutter@example.com" && git config --global user.name "flutter"
 git add . && git commit -am "modify"
 
@@ -43,7 +43,7 @@ EOL
 gclient sync
 
 # 修改代码
-($ROOT_DIR/scripts/modify_source.sh "2")
+($ROOT_DIR/scripts/modify_source.sh "gclient_sync")
 
 log "prepare source finish"
 cat .gclient
