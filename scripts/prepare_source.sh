@@ -36,7 +36,7 @@ solutions = [
     "managed": False,
     "name": "src/flutter",
     "safesync_url": "",
-    "url": "$ROOT_DIR/source/engine",
+    "url": "'$ROOT_DIR/source/engine'",
   },
 ]
 EOL
@@ -46,3 +46,4 @@ gclient sync
 ($ROOT_DIR/scripts/modify_source.sh "2")
 
 log "prepare source finish"
+cat .gclient
