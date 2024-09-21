@@ -2,16 +2,10 @@ name: Build Flutter Engine
 on: push
 jobs:
   build_arm:
-    runs-on: ubuntu-22.04
-    env:
-      ACTIONS_RUNNER_DEBUG: true
-      ACTIONS_STEP_DEBUG: true
-    steps:
-      - uses: actions/checkout@v3
-      - uses: ./.github/actions/build_flutter
-        with:
-          build_script: build_arm.sh
-          artifact_name: ARM
+    uses: ./.github/workflows/build.yml
+    with:
+      build_script: build_arm.sh
+      artifact_name: ARM
 
   collect_and_release:
     runs-on: ubuntu-22.04
