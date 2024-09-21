@@ -6,7 +6,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Prepare Environment
-        run: ./scripts/prepare_environment.sh
+        run: |
+          chmod +x ./scripts/*.sh
+          ./scripts/prepare_environment.sh
       - name: Prepare Source
         run: ./scripts/prepare_source.sh
       - name: Build ARM
@@ -27,7 +29,9 @@ jobs:
         with:
           name: ARM
       - name: Compress Artifacts
-        run: ./scripts/compress_artifacts.sh
+        run:  |
+          chmod +x ./scripts/*.sh
+          ./scripts/compress_artifacts.sh
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
