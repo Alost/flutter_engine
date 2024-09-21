@@ -36,7 +36,7 @@ replace_lines_with_string() {
     rm "$temp_file"
 }
 
-VERSION = 3.22.3
+VERSION=3.22.3
 
 if [ "$1" == "git_clone" ]; then
     cd $ROOT_DIR/flutter/source/engine

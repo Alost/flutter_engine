@@ -12,7 +12,7 @@ log "build arm start"
 
 cd $ROOT_DIR/flutter/engine/src
 
-GN_OPTS = --no-goma --no-build-embedder-examples --no-enable-unittests --no-dart-version-git-info --unoptimized --no-lto
+GN_OPTS = --no-goma --no-build-embedder-examples --no-enable-unittests --no-dart-version-git-info --unoptimized --no-lto --no-clang-static-analyzer
 flutter/tools/gn $GN_OPTS --no-prebuilt-dart-sdk --android --runtime-mode release --android-cpu arm
 ninja -C out/android_release
 
