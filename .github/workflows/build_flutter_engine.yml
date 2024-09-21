@@ -2,7 +2,7 @@ name: Build Flutter Engine
 on: push
 jobs:
   build_arm:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - name: Prepare Environment
@@ -17,10 +17,10 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ARM
-          path: flutter/engine/src/lib
+          path: ./flutter/engine/src/lib
 
   collect_and_release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [build_arm]
     steps:
       - uses: actions/checkout@v3
