@@ -12,7 +12,7 @@ export ROOT_DIR="${ROOT_DIR:-$PWD}"
 source $ROOT_DIR/scripts/common.sh
 
 if [ "$1" -eq "git_clone" ]; then
-    cd $ROOT_DIR/source/engine
+    cd $ROOT_DIR/flutter/source/engine
     git checkout 3.22.3
 
     log "checkout source finish"
