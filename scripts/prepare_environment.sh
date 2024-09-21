@@ -4,7 +4,7 @@ set -eux
 set -o pipefail
 
 uname -a
-df -h .
+df -hT .
 cat /etc/os-release
 hostnamectl
 lsb_release -a
