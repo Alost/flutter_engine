@@ -36,7 +36,7 @@ solutions = [
     "managed": False,
     "name": "src/flutter",
     "safesync_url": "",
-    "url": "$ROOT_DIR/source/engine",
+    "url": "$ROOT_DIR/flutter/source/engine",
   },
 ]
 EOL
