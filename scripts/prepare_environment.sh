@@ -3,11 +3,18 @@
 set -eux
 set -o pipefail
 
-free -h
-df -h
+uname -a
 df -h .
+cat /etc/os-release
+hostnamectl
+lsb_release -a
+free -h
+df -hT
 nproc
 cat /proc/cpuinfo
+lscpu
+lshw -short
+ifconfig
 
 sudo apt clean all
 sudo apt update
