@@ -24,8 +24,8 @@ jobs:
     if: false
     runs-on: ubuntu-22.04
     steps:
-      - uses: ./.github/actions/free_disk_space
       - uses: actions/checkout@v3
+      - uses: ./.github/actions/free_disk_space
       - name: Prepare Environment
         run: |
           chmod +x ./scripts/*.sh
@@ -44,8 +44,8 @@ jobs:
     if: false
     runs-on: ubuntu-22.04
     steps:
-      - uses: ./.github/actions/free_disk_space
       - uses: actions/checkout@v3
+      - uses: ./.github/actions/free_disk_space
       - name: Prepare Environment
         run: |
           chmod +x ./scripts/*.sh

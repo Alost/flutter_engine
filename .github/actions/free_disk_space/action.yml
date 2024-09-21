@@ -4,6 +4,7 @@ runs:
   using: 'composite'
   steps:
     - name: Before Free Disk Space
+      shell: bash
       run: |
         echo "Before free disk space"
         echo "=============================================================================="
@@ -43,6 +44,7 @@ runs:
         remove-docker-images: 'true'
 
     - name: After Free Disk Space
+      shell: bash
       run: |
         echo "After free disk space"
         echo "=============================================================================="
