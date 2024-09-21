@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -euv
 set -o pipefail
 
 export ROOT_DIR="${ROOT_DIR:-$PWD}"
@@ -15,7 +15,6 @@ git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools
 echo "export PATH=$ROOT_DIR/flutter/depot_tools:$PATH" >> ~/.bashrc
 source ~/.bashrc
 export PATH=$ROOT_DIR/flutter/depot_tools:$PATH
-echo "PATH=$ROOT_DIR/flutter/depot_tools:$PATH" >> $GITHUB_ENV # github actions 共享环境变量
 
 # flutter engine 代码
 mkdir $ROOT_DIR/flutter/source; cd $ROOT_DIR/flutter/source
@@ -41,10 +40,9 @@ solutions = [
 ]
 EOL
 cat .gclient
-# gclient sync
+gclient sync
 
 # 修改代码
 ($ROOT_DIR/scripts/modify_source.sh "gclient_sync")
 
 log "prepare source finish"
-

@@ -84,10 +84,10 @@ jobs:
         with:
           name: X64
         continue-on-error: true
-      - name: Compress Artifacts
+      - name: Collect Artifacts
         run:  |
           chmod +x ./scripts/*.sh
-          ./scripts/compress_artifacts.sh
+          ./scripts/collect_artifacts.sh
       - name: Release
         uses: softprops/action-gh-release@v1
         with:

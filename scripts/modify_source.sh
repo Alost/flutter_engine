@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -euv
 set -o pipefail
 
 # 会进来两次，要根据对应代码路径是否存在来修改，默认是第二次调用
