@@ -9,18 +9,19 @@ inputs:
     description: 'artifact name'
     required: true
     default: 'ARM'
-shell: bash
 runs:
   using: 'composite'
   steps:
     - uses: ./.github/actions/free_disk_space
 
     - name: Prepare Environment
+      shell: bash
       run: |
         chmod +x ./scripts/*.sh
         ./scripts/prepare_environment.sh
 
     - name: Set Environment Variables
+      shell: bash
       run: |
         source ./scripts/set_env.sh
 
@@ -32,9 +33,11 @@ runs:
         key: flutter-${{ env.VERSION }}
 
     - name: Prepare Source
+      shell: bash
       run: ./scripts/prepare_source.sh
 
     - name: Build
+      shell: bash
       run: ./scripts/{{ inputs.build_script }}
 
     - name: Upload Artifacts
