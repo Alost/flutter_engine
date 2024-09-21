@@ -8,36 +8,10 @@ jobs:
       ACTIONS_STEP_DEBUG: true
     steps:
       - uses: actions/checkout@v3
-
-      - uses: ./.github/actions/free_disk_space
-
-      - name: Prepare Environment
-        run: |
-          chmod +x ./scripts/*.sh
-          ./scripts/prepare_environment.sh
-
-      - name: Set Environment Variables
-        run: |
-          source ./scripts/set_env.sh
-
-      - name: Cache Flutter
-        uses: actions/cache@v3
+      - uses: ./.github/actions/build_flutter
         with:
-          path: |
-            ./flutter
-          key: flutter-${{ env.VERSION }}
-
-      - name: Prepare Source
-        run: ./scripts/prepare_source.sh
-
-      - name: Build
-        run: ./scripts/build_arm.sh
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: ARM
-          path: ./flutter/engine/src/lib
+          build_script: build_arm.sh
+          artifact_name: ARM
 
   collect_and_release:
     runs-on: ubuntu-22.04
