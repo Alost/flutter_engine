@@ -1,15 +1,10 @@
 #!/bin/bash
 
-set -euv
-set -o pipefail
+source $ROOT_DIR/scripts/set_env.sh
 
 # 会进来两次，要根据对应代码路径是否存在来修改，默认是第二次调用
 # 第一次是 git clone 后
 # 第二次是 gclient sync 后
-
-export ROOT_DIR="${ROOT_DIR:-$PWD}"
-
-source $ROOT_DIR/scripts/common.sh
 
 replace_lines_with_file() {
     local target_file="$1"
@@ -36,12 +31,10 @@ replace_lines_with_string() {
     rm "$temp_file"
 }
 
-VERSION=3.22.3
-
 if [ "$1" == "git_clone" ]; then
     cd $ROOT_DIR/flutter/source/engine
     git checkout $VERSION
-    echo "VERSION=$VERSION" >> $GITHUB_ENV
+    
     log "checkout source finish"
     exit 0
 fi

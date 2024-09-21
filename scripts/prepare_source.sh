@@ -1,25 +1,16 @@
 #!/bin/bash
 
-set -euv
-set -o pipefail
-
-export ROOT_DIR="${ROOT_DIR:-$PWD}"
-
-source $ROOT_DIR/scripts/common.sh
+source $ROOT_DIR/scripts/set_env.sh
 
 log "prepare source start"
 
 # depot_tools 工具
 mkdir $ROOT_DIR/flutter; cd $ROOT_DIR/flutter;
-git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools.git
-echo "export PATH=$ROOT_DIR/flutter/depot_tools:$PATH" >> ~/.bashrc
-source ~/.bashrc
-echo "PATH=$ROOT_DIR/flutter/depot_tools:$PATH" >> $GITHUB_ENV
-export PATH=$ROOT_DIR/flutter/depot_tools:$PATH
+git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools.git || true
 
 # flutter engine 代码
 mkdir $ROOT_DIR/flutter/source; cd $ROOT_DIR/flutter/source
-git clone https://github.com/flutter/engine.git
+git clone https://github.com/flutter/engine.git || true
 
 # 切换版本
 ($ROOT_DIR/scripts/modify_source.sh "git_clone")
