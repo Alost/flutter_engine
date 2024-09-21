@@ -7,10 +7,22 @@ jobs:
       build_script: build_arm.sh
       artifact_name: ARM
 
+  build_arm64:
+    uses: ./.github/workflows/build.yml
+    with:
+      build_script: build_arm64.sh
+      artifact_name: ARM64
+
+  build_x64:
+    uses: ./.github/workflows/build.yml
+    with:
+      build_script: build_x64.sh
+      artifact_name: X64
+
   collect_and_release:
     runs-on: ubuntu-22.04
-    needs: [build_arm]
-    # needs: [build_arm, build_arm64, build_x64]
+    # needs: [build_arm]
+    needs: [build_arm, build_arm64, build_x64]
     steps:
       - uses: actions/checkout@v3
 
@@ -33,14 +45,17 @@ jobs:
         continue-on-error: true
 
       - name: Collect Artifacts
-        run:  |
+        run: |
           chmod +x ./scripts/*.sh
           ./scripts/collect_artifacts.sh
-          
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.event.head_commit.message }}
+          tag_name: ${{ env.VERSION }}
+          release_name: ${{ env.VERSION }}
+          body: |
+            ${{ github.event.head_commit.message }}
           files: |
             flutter/engine/src/lib.zip
           draft: false

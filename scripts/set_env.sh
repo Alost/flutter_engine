@@ -8,6 +8,8 @@ echo "ROOT_DIR=$ROOT_DIR" >> $GITHUB_ENV
 
 export PATH=$ROOT_DIR/flutter/depot_tools:$PATH
 
+GN_OPTS="--no-goma --no-build-embedder-examples --no-enable-unittests --no-dart-version-git-info --no-clang-static-analyzer"
+
 export VERSION=3.22.3
 echo "VERSION=$VERSION" >> $GITHUB_ENV
 
