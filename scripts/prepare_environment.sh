@@ -3,11 +3,11 @@
 set -eux
 set -o pipefail
 
-nproc
-cat /proc/cpuinfo
 free -h
 df -h
-df .
+df -h .
+nproc
+cat /proc/cpuinfo
 
 sudo apt clean all
 sudo apt update
