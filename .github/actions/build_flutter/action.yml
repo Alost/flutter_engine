@@ -1,5 +1,5 @@
 name: 'Build Flutter'
-description: 'free disk space'
+description: 'build flutter'
 inputs:
   build_script:
     description: 'build script'
@@ -11,6 +11,8 @@ inputs:
     default: 'ARM'
 runs:
   using: 'composite'
+  default:
+    shell: bash
   steps:
     - uses: ./.github/actions/free_disk_space
 
