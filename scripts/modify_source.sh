@@ -11,7 +11,7 @@ export ROOT_DIR="${ROOT_DIR:-$PWD}"
 
 source $ROOT_DIR/scripts/common.sh
 
-if [ "\$1" == "1" ]; then
+if [ "$1" == "1" ]; then
     cd $ROOT_DIR/source/engine
     git checkout 3.22.3
 

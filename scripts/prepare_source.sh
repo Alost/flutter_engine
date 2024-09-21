@@ -15,7 +15,7 @@ git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools
 echo "export PATH=$ROOT_DIR/flutter/depot_tools:$PATH" >> ~/.bashrc
 source ~/.bashrc
 export PATH=$ROOT_DIR/flutter/depot_tools:$PATH
-echo "export PATH=$ROOT_DIR/flutter/depot_tools:\$PATH" >> $GITHUB_ENV # github actions 共享环境变量
+echo "export PATH=$ROOT_DIR/flutter/depot_tools:$PATH" >> $GITHUB_ENV # github actions 共享环境变量
 
 # flutter engine 代码
 mkdir $ROOT_DIR/flutter/source; cd $ROOT_DIR/flutter/source
@@ -36,7 +36,7 @@ solutions = [
     "managed": False,
     "name": "src/flutter",
     "safesync_url": "",
-    "url": "'$ROOT_DIR/source/engine'",
+    "url": "$ROOT_DIR/source/engine",
   },
 ]
 EOL
