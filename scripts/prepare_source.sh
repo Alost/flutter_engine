@@ -19,7 +19,7 @@ echo "export PATH=$ROOT_DIR/flutter/depot_tools:$PATH" >> $GITHUB_ENV # github a
 
 # flutter engine 代码
 mkdir $ROOT_DIR/flutter/source; cd $ROOT_DIR/flutter/source
-git clone --depth 1 https://github.com/flutter/engine.git
+git clone https://github.com/flutter/engine.git
 
 # 切换版本
 ($ROOT_DIR/scripts/modify_source.sh "git_clone")
