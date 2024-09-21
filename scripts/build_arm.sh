@@ -4,6 +4,8 @@ set -eux
 set -o pipefail
 
 export ROOT_DIR="${ROOT_DIR:-$PWD}"
+
+echo $PATH
 export PATH=$ROOT_DIR/flutter/depot_tools:$PATH
 
 source $ROOT_DIR/scripts/common.sh
