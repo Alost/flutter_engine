@@ -4,6 +4,7 @@ set -euv
 set -o pipefail
 
 export ROOT_DIR="${ROOT_DIR:-$PWD}"
+echo "ROOT_DIR=$ROOT_DIR" >> $GITHUB_ENV
 
 export PATH=$ROOT_DIR/flutter/depot_tools:$PATH
 
