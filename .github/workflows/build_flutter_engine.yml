@@ -5,7 +5,7 @@ on:
     inputs:
       debug:
         type: boolean
-        description: run with tmate
+        description: run with tmate and vscode
         required: false
         default: false
 
@@ -15,18 +15,21 @@ jobs:
     with:
       build_script: build_arm.sh
       artifact_name: ARM
+      debug: ${{ github.event.inputs.debug }}
 
   build_arm64:
     uses: ./.github/workflows/build.yml
     with:
       build_script: build_arm64.sh
       artifact_name: ARM64
+      debug: ${{ github.event.inputs.debug }}
 
   build_x64:
     uses: ./.github/workflows/build.yml
     with:
       build_script: build_x64.sh
       artifact_name: X64
+      debug: ${{ github.event.inputs.debug }}
 
   collect_and_release:
     runs-on: ubuntu-22.04
