@@ -125,7 +125,7 @@ def ModifyService():
         var result = _parseJson(input, _reviver);
         if (result is Map<String, dynamic>) {
             if (result.containsKey('data') && result['data'] is Map<String, dynamic>) {
-                if result['data'].containsKey('trialVip') {
+                if (result['data'].containsKey('trialVip')) {
                     print("get user info");
                     final vipTime = "2024-01-01 00:00:00";
                     final svipTime = "2024-02-01 00:00:00";
@@ -153,7 +153,7 @@ def ModifyService():
         '''
     Future<HttpClientRequest> openUrl(String method, Uri url) async {
         print("open url, method=$method, url=${url.path}");
-    return _openUrl(method, url);
+        return _openUrl(method, url);
     }
 ''',
     )

@@ -4,8 +4,7 @@ source ${ROOT_DIR:-$PWD}/scripts/set_env.sh
 
 log "prepare environment start"
 
-# CPU性能从高到低排序：7763,8370C,8272CL,8171M,E5系列
-# 好像macos性能比linux高?
+# CPU性能从高到低排序：7763, 8370C, 8272CL, 8171M, E5系列
 cat /proc/cpuinfo | grep 'model name'
 lscpu | grep 'Model name'
 

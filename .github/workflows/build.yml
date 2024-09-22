@@ -25,6 +25,13 @@ jobs:
       # touch continue
       # - uses: fawazahmed0/action-debug-vscode@main
 
+      # touch continue
+      # sudo touch /continue
+      # - uses: mxschmitt/action-tmate@v3
+      #   with:
+      #     detached: true
+      #     timeout-minutes: 10
+
       - uses: ./.github/actions/free_disk_space
         if: ${{ env.BUILD_TEST != 'true'}}
 
@@ -57,9 +64,6 @@ jobs:
       - name: Prepare Source
         if: ${{ env.BUILD_TEST != 'true'}}
         run: ./scripts/prepare_source.sh
-
-      # touch continue
-      # - uses: fawazahmed0/action-debug-vscode@main
 
       - name: Build
         if: ${{ env.BUILD_TEST != 'true'}}

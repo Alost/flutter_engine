@@ -1,5 +1,14 @@
 name: Build Flutter Engine
-on: push
+on: 
+  push:
+  workflow_dispatch:
+    inputs:
+      debug:
+        type: boolean
+        description: run with tmate
+        required: false
+        default: false
+
 jobs:
   build_arm:
     uses: ./.github/workflows/build.yml
