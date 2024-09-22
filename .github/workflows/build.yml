@@ -38,13 +38,13 @@ jobs:
           source ./scripts/set_env.sh
 
       # 超过10G了，不会缓存
-      - name: Cache Flutter
-        if: ${{ env.BUILD_TEST != 'true'}}
-        uses: actions/cache@v3
-        with:
-          path: |
-              ./flutter
-          key: flutter-${{ env.VERSION }}
+      # - name: Cache Flutter
+      #   if: ${{ env.BUILD_TEST != 'true'}}
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: |
+      #         ./flutter
+      #     key: flutter-${{ env.VERSION }}
 
       - name: Build Test
         if: ${{ env.BUILD_TEST == 'true'}}
