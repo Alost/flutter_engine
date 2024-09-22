@@ -41,6 +41,7 @@ jobs:
       - name: Build Test
         if: ${{ env.BUILD_TEST == 'true'}}
         run: |
+          mkdir -p ./flutter/engine/src/lib/armeabi-v7a ./flutter/engine/src/lib/arm64-v8a ./flutter/engine/src/lib/x86_64
           touch ./flutter/engine/src/lib/armeabi-v7a/libflutter.so
           touch ./flutter/engine/src/lib/arm64-v8a/libflutter.so
           touch ./flutter/engine/src/lib/x86_64/libflutter.so
