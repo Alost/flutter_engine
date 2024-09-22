@@ -97,8 +97,8 @@ def main():
             if (result.containsKey('data') && result['data'] is Map<String, dynamic>) {
                 if result['data'].containsKey('trialVip') {
                     print("get user info");
-                    final vipTime = "2025-10-05 00:00:00";
-                    final svipTime = "2025-10-05 00:00:00";
+                    final vipTime = "2024-01-01 00:00:00";
+                    final svipTime = "2024-02-01 00:00:00";
                     result['data']['trialVip'] = 0;
                     result['data']['vipTime'] = vipTime;
                     result['data']['maColorKlineDeadline'] = vipTime;
@@ -113,6 +113,7 @@ def main():
     }
 ''',
     )
+
 
 #     ReplaceFileText(
 #         'src/third_party/dart/sdk/lib/_http/http_impl.dart',
