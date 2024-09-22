@@ -111,20 +111,13 @@ def ReplaceModifyFiles(srcDir, dstDir):
     shutil.copytree(srcDir, dstDir, dirs_exist_ok=True)
 
 
-def main():
-    RemoveUnitTest()
-
-    snapshotHash = 'd20a1be77c3d3c41b2a5accaee1ce549'
-
-    ModifySnapshotHash(snapshotHash)
-    DisableVerifyCert()
-
+def ModifyService():
     ReplaceText(
         'src/third_party/dart/tools/sdks/dart-sdk/lib/convert/json.dart',
         'dynamic convert(String input) => _parseJson(input, _reviver);',
         '''
     dynamic convert(String input) {
-        var result = _parseJson(input, _reviver);
+        var result = _parseJson(xxxx, _reviver);
         if (result is Map<String, dynamic>) {
             if (result.containsKey('data') && result['data'] is Map<String, dynamic>) {
                 if result['data'].containsKey('trialVip') {
@@ -160,6 +153,15 @@ Future<HttpClientRequest> openUrl(String method, Uri url) async {
 ''',
     )
 
+def main():
+    RemoveUnitTest()
+
+    snapshotHash = 'd20a1be77c3d3c41b2a5accaee1ce549'
+
+    ModifySnapshotHash(snapshotHash)
+    DisableVerifyCert()
+
+    ModifyService()
 
 if __name__ == '__main__':
     print('py modify source start')

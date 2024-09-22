@@ -21,6 +21,6 @@ gclient sync -D --with_branch_heads --with_tags
 git tag --points-at HEAD
 
 # 修改代码
-($ROOT_DIR/scripts/modify_source.sh "gclient_sync")
+($ROOT_DIR/scripts/modify_source.sh)
 
 log "prepare source finish"
