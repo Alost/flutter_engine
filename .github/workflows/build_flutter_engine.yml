@@ -15,21 +15,21 @@ jobs:
     with:
       build_script: build_arm.sh
       artifact_name: ARM
-      debug: ${{ inputs.debug }}
+      debug: ${{ github.event_name == 'workflow_dispatch' && inputs.debug }}
 
   build_arm64:
     uses: ./.github/workflows/build.yml
     with:
       build_script: build_arm64.sh
       artifact_name: ARM64
-      debug: ${{ inputs.debug }}
+      debug: ${{ github.event_name == 'workflow_dispatch' && inputs.debug }}
 
   build_x64:
     uses: ./.github/workflows/build.yml
     with:
       build_script: build_x64.sh
       artifact_name: X64
-      debug: ${{ inputs.debug }}
+      debug: ${{ github.event_name == 'workflow_dispatch' && inputs.debug }}
 
   collect_and_release:
     runs-on: ubuntu-22.04
