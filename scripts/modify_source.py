@@ -84,7 +84,7 @@ def main():
 
     snapshotHash = 'd20a1be77c3d3c41b2a5accaee1ce549'
 
-    ModifySnapshotHash('snapshotHash')
+    ModifySnapshotHash(snapshotHash)
     DisableVerifyCert()
 
     ReplaceFileText(
