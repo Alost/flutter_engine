@@ -56,7 +56,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ env.VERSION }}
-          release_name: ${{ env.VERSION }}
           body: |
             ${{ github.event.head_commit.message }}
           files: |
