@@ -2,6 +2,8 @@
 
 source ${ROOT_DIR:-$PWD}/scripts/set_env.sh
 
+log "prepare environment start"
+
 # CPU性能从高到低排序：7763,8370C,8272CL,8171M,E5系列
 # 好像macos性能比linux高?
 cat /proc/cpuinfo | grep 'model name'
@@ -32,3 +34,5 @@ sudo sysctl vm.swappiness=25
 sudo swapon --show
 
 sudo apt-get install -y ninja-build pkg-config openjdk-21-jdk
+
+log "prepare environment finish"
