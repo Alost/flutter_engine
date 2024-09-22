@@ -23,7 +23,6 @@ def ReplaceText(filePath, oldText, newText):
     with open(filePath, 'w', encoding='utf-8') as f:
         f.write(filedata)
 
-
 def AppendNewLineAfter(filePath, text, appendText):
     ReplaceText(filePath, text, f'{text}\n{appendText}\n')
 
@@ -117,10 +116,8 @@ def ReplaceModifyFiles(srcDir, dstDir):
 
 def ModifyService():
     print(f'modify service')
-    ReplaceText(
-        'src/third_party/dart/sdk/lib/convert/json.dart',
-        'dynamic convert(String input) => _parseJson(input, _reviver);',
-        '''
+
+    jsonDecoderConvertModify = '''
     dynamic convert(String input) {
         var result = _parseJson(input, _reviver);
         if (result is Map<String, dynamic>) {
@@ -141,23 +138,40 @@ def ModifyService():
         }
         return result;
     }
-''',
+'''
+    ReplaceText(
+        'src/third_party/dart/sdk/lib/convert/json.dart',
+        'dynamic convert(String input) => _parseJson(input, _reviver);',
+        jsonDecoderConvertModify,
     )
+    # ReplaceText(
+    #     'gen/dart-pkg/sky_engine/lib/convert/json.dart', # sync的时候从sdk copy过来的
+    #     'dynamic convert(String input) => _parseJson(input, _reviver);',
+    #     jsonDecoderConvertModify,
+    # )
 
+    httpOpenUrlModify = '''
+    Future<HttpClientRequest> openUrl(String method, Uri url) async {
+        print("open url, method=$method, url=${url.path}");
+        return _openUrl(method, url);
+    }
+'''
     ReplaceText(
         'src/third_party/dart/sdk/lib/_http/http_impl.dart',
         '''
   Future<HttpClientRequest> openUrl(String method, Uri url) =>
       _openUrl(method, url);
 ''',
-        '''
-    Future<HttpClientRequest> openUrl(String method, Uri url) async {
-        print("open url, method=$method, url=${url.path}");
-        return _openUrl(method, url);
-    }
-''',
+        httpOpenUrlModify,
     )
-
+#     ReplaceText(
+#         'gen/dart-pkg/sky_engine/lib/_http/http_impl.dart',
+#         '''
+#   Future<HttpClientRequest> openUrl(String method, Uri url) =>
+#       _openUrl(method, url);
+# ''',
+#         httpOpenUrlModify,
+#     )
 
 def main():
     RemoveUnitTest()

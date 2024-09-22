@@ -23,19 +23,19 @@ jobs:
     env:
       ACTIONS_RUNNER_DEBUG: true
       ACTIONS_STEP_DEBUG: true
-      BUILD_TEST: true
+      BUILD_TEST: false
     steps:
       - uses: actions/checkout@v4
 
-      # touch continue
-      - uses: fawazahmed0/action-debug-vscode@main
-        if: ${{ inputs.debug == 'true'}}
-
       - uses: mxschmitt/action-tmate@v3
-        if: ${{ inputs.debug == 'true'}}
+        if: ${{ inputs.debug }}
         with:
           detached: true
           timeout-minutes: 5
+
+      # touch continue
+      - uses: fawazahmed0/action-debug-vscode@main
+        if: ${{ inputs.debug }}
 
       - uses: ./.github/actions/free_disk_space
         if: ${{ env.BUILD_TEST != 'true'}}
@@ -69,6 +69,14 @@ jobs:
       - name: Prepare Source
         if: ${{ env.BUILD_TEST != 'true'}}
         run: ./scripts/prepare_source.sh
+
+      - uses: mxschmitt/action-tmate@v3
+        with:
+          detached: true
+          timeout-minutes: 5
+
+      # touch continue
+      - uses: fawazahmed0/action-debug-vscode@main
 
       - name: Build
         if: ${{ env.BUILD_TEST != 'true'}}
