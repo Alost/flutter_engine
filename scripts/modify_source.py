@@ -1,7 +1,7 @@
 import fileinput
 import os
 
-ENGINE_DIR = os.getcwd()
+ENGINE_DIR = os.getenv('ENGINE_DIR', os.getcwd())
 print(f'ENGINE_DIR: {ENGINE_DIR}')
 
 
@@ -12,6 +12,7 @@ def DeleteFileTextLine(filePath, text):
         if text not in line:
             print(line, end='')
 
+
 def ReplaceFileText(filePath, oldText, newText):
     if not os.path.exists(filePath):
         filePath = os.path.join(ENGINE_DIR, filePath)
@@ -20,6 +21,7 @@ def ReplaceFileText(filePath, oldText, newText):
         filedata = filedata.replace(oldText, newText)
     with open(filePath, 'w', encoding='utf-8') as f:
         f.write(filedata)
+
 
 def RemoveUnitTest():
     texts = [
@@ -40,11 +42,11 @@ def RemoveUnitTest():
         DeleteFileTextLine("src/flutter/BUILD.gn", text)
 
 
-
 def main():
     RemoveUnitTest()
 
 
 if __name__ == '__main__':
+    print('py modify source start')
     main()
-    print('modify source done')
+    print('py modify source finish')
