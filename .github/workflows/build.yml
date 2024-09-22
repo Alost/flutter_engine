@@ -7,6 +7,11 @@ on:
         required: true
         type: string
         default: 'build_arm.sh'
+      artifact_name:
+        description: 'artifact name'
+        required: true
+        type: string
+        default: 'ARM'
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -57,5 +62,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: lib
+          name: ${{ inputs.artifact_name }}
           path: ./flutter/engine/src/lib

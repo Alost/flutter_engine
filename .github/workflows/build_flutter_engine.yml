@@ -5,16 +5,19 @@ jobs:
     uses: ./.github/workflows/build.yml
     with:
       build_script: build_arm.sh
+      artifact_name: ARM
 
   build_arm64:
     uses: ./.github/workflows/build.yml
     with:
       build_script: build_arm64.sh
+      artifact_name: ARM64
 
   build_x64:
     uses: ./.github/workflows/build.yml
     with:
       build_script: build_x64.sh
+      artifact_name: X64
 
   collect_and_release:
     runs-on: ubuntu-22.04
@@ -24,10 +27,25 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Collect ARM Artifacts
+        continue-on-error: true
         uses: actions/download-artifact@v3
         with:
-          name: lib
+          name: ARM
+          path: ./flutter/engine/src/lib
+
+      - name: Collect ARM64 Artifacts
         continue-on-error: true
+        uses: actions/download-artifact@v3
+        with:
+          name: ARM64
+          path: ./flutter/engine/src/lib
+
+      - name: Collect X64 Artifacts
+        continue-on-error: true
+        uses: actions/download-artifact@v3
+        with:
+          name: X64
+          path: ./flutter/engine/src/lib
 
       - name: Collect Artifacts
         run: |
