@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euv
+set -euvx
 set -o pipefail
 
 export ROOT_DIR="${ROOT_DIR:-$PWD}"

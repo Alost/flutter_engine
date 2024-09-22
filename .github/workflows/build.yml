@@ -7,11 +7,6 @@ on:
         required: true
         type: string
         default: 'build_arm.sh'
-      artifact_name:
-        description: 'artifact name'
-        required: true
-        type: string
-        default: 'ARM'
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -32,6 +27,7 @@ jobs:
         run: |
           source ./scripts/set_env.sh
 
+      # 超过10G了，不会缓存
       - name: Cache Flutter
         uses: actions/cache@v3
         with:
@@ -48,5 +44,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ inputs.artifact_name }}
+          name: lib
           path: ./flutter/engine/src/lib
