@@ -22,6 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      # touch continue
+      # - uses: fawazahmed0/action-debug-vscode@main
+
       - uses: ./.github/actions/free_disk_space
         if: ${{ env.BUILD_TEST != 'true'}}
 
@@ -55,6 +58,9 @@ jobs:
         if: ${{ env.BUILD_TEST != 'true'}}
         run: ./scripts/prepare_source.sh
 
+      # touch continue
+      # - uses: fawazahmed0/action-debug-vscode@main
+
       - name: Build
         if: ${{ env.BUILD_TEST != 'true'}}
         run: ./scripts/${{ inputs.build_script }}
@@ -64,3 +70,7 @@ jobs:
         with:
           name: ${{ inputs.artifact_name }}
           path: ./flutter/engine/src/lib
+
+      # touch continue
+      # - uses: fawazahmed0/action-debug-vscode@main
+      #   if: ${{ failure() }}
