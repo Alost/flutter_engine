@@ -6,6 +6,12 @@ source ${ROOT_DIR:-$PWD}/scripts/set_env.sh
 # 第一次是 git clone 后
 # 第二次是 gclient sync 后
 
+remove_text_line() {
+    local filename="\$1"
+    local pattern="\$2"
+    sed -i "|$pattern|d" "$filename"
+}
+
 replace_lines_with_file() {
     local target_file="$1"
     local start_line="$2"
@@ -38,5 +44,12 @@ if [ "$1" == "git_clone" ]; then
     log "checkout source finish"
     exit 0
 fi
+
+cd $ROOT_DIR/flutter/engine
+
+# 去掉 android 的单元测试
+remove_text_line "src/flutter/BUILD.gn" "//flutter/impeller/toolkit/android:apk_unittests"
+remove_text_line "src/flutter/BUILD.gn" "//flutter/impeller/toolkit/android:unittests"
+remove_text_line "src/flutter/BUILD.gn" "//flutter/shell/platform/android:flutter_shell_native_unittests"
 
 log "modify source finish"
