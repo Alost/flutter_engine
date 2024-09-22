@@ -13,10 +13,12 @@ jobs:
     env:
       ACTIONS_RUNNER_DEBUG: true
       ACTIONS_STEP_DEBUG: true
+      BUILD_TEST: true
     steps:
       - uses: actions/checkout@v3
 
       - uses: ./.github/actions/free_disk_space
+        if: ${{ env.BUILD_TEST != 'true'}}
 
       - name: Prepare Environment
         run: |
@@ -29,16 +31,26 @@ jobs:
 
       # 超过10G了，不会缓存
       - name: Cache Flutter
+        if: ${{ env.BUILD_TEST != 'true'}}
         uses: actions/cache@v3
         with:
           path: |
               ./flutter
           key: flutter-${{ env.VERSION }}
 
+      - name: Build Test
+        if: ${{ env.BUILD_TEST == 'true'}}
+        run: |
+          touch ./flutter/engine/src/lib/armeabi-v7a/libflutter.so
+          touch ./flutter/engine/src/lib/arm64-v8a/libflutter.so
+          touch ./flutter/engine/src/lib/x86_64/libflutter.so
+
       - name: Prepare Source
+        if: ${{ env.BUILD_TEST != 'true'}}
         run: ./scripts/prepare_source.sh
 
       - name: Build
+        if: ${{ env.BUILD_TEST != 'true'}}
         run: ./scripts/${{ inputs.build_script }}
 
       - name: Upload Artifacts
