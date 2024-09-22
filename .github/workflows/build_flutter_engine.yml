@@ -24,25 +24,25 @@ jobs:
     # needs: [build_arm]
     needs: [build_arm, build_arm64, build_x64]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Collect ARM Artifacts
         continue-on-error: true
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ARM
           path: ./flutter/engine/src/lib
 
       - name: Collect ARM64 Artifacts
         continue-on-error: true
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ARM64
           path: ./flutter/engine/src/lib
 
       - name: Collect X64 Artifacts
         continue-on-error: true
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: X64
           path: ./flutter/engine/src/lib
@@ -53,7 +53,7 @@ jobs:
           ./scripts/collect_artifacts.sh
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         # Settings -> Actions -> General -> Workflow permissions -> Read and write permissions
         with:
           tag_name: ${{ env.VERSION }}

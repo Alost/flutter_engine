@@ -20,7 +20,7 @@ jobs:
       ACTIONS_STEP_DEBUG: true
       BUILD_TEST: false
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # touch continue
       # - uses: fawazahmed0/action-debug-vscode@main
@@ -40,7 +40,7 @@ jobs:
       # 超过10G了，不会缓存
       # - name: Cache Flutter
       #   if: ${{ env.BUILD_TEST != 'true'}}
-      #   uses: actions/cache@v3
+      #   uses: actions/cache@v4
       #   with:
       #     path: |
       #         ./flutter
@@ -66,7 +66,7 @@ jobs:
         run: ./scripts/${{ inputs.build_script }}
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.artifact_name }}
           path: ./flutter/engine/src/lib
