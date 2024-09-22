@@ -33,7 +33,8 @@ solutions = [
 EOL
 cat .gclient
 # gclient sync
-gclient sync -D --with_branch_heads --with_tags
+# gclient sync -D --with_branch_heads --with_tags
+gclient sync --nohooks
 
 # 修改代码
 ($ROOT_DIR/scripts/modify_source.sh "gclient_sync")
