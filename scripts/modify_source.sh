@@ -8,6 +8,8 @@ cd $ENGINE_DIR
 
 python3 $ROOT_DIR/scripts/modify_source.py
 
+echo "========================================Diff Start======================================"
 find . -type d -name ".git" -execdir sh -c 'git diff --exit-code >/dev/null || (git diff && echo "Changes in $(pwd)\n")' \;
+echo "========================================Diff End======================================"
 
 log "modify source finish"

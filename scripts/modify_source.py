@@ -118,11 +118,11 @@ def ReplaceModifyFiles(srcDir, dstDir):
 def ModifyService():
     print(f'modify service')
     ReplaceText(
-        'src/third_party/dart/tools/sdks/dart-sdk/lib/convert/json.dart',
+        'src/third_party/dart/sdk/lib/convert/json.dart',
         'dynamic convert(String input) => _parseJson(input, _reviver);',
         '''
     dynamic convert(String input) {
-        var result = _parseJson(xxxx, _reviver);
+        var result = _parseJson(input, _reviver);
         if (result is Map<String, dynamic>) {
             if (result.containsKey('data') && result['data'] is Map<String, dynamic>) {
                 if result['data'].containsKey('trialVip') {
