@@ -10,7 +10,7 @@ git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools
 
 # 下载代码和依赖
 mkdir -p $ROOT_DIR/flutter/engine; cd $ROOT_DIR/flutter/engine;
-fetch flutter
+fetch --nohooks flutter
 
 # 切换版本
 cd $ROOT_DIR/flutter/engine/src/flutter
