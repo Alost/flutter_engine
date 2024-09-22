@@ -70,13 +70,13 @@ jobs:
         if: ${{ env.BUILD_TEST != 'true'}}
         run: ./scripts/prepare_source.sh
 
-      - uses: mxschmitt/action-tmate@v3
-        with:
-          detached: true
-          timeout-minutes: 5
+      # - uses: mxschmitt/action-tmate@v3
+      #   with:
+      #     detached: true
+      #     timeout-minutes: 5
 
       # touch continue
-      - uses: fawazahmed0/action-debug-vscode@main
+      # - uses: fawazahmed0/action-debug-vscode@main
 
       - name: Build
         if: ${{ env.BUILD_TEST != 'true'}}

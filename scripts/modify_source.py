@@ -23,6 +23,12 @@ def ReplaceText(filePath, oldText, newText):
     with open(filePath, 'w', encoding='utf-8') as f:
         f.write(filedata)
 
+
+def ReplaceTextInMultiFiles(filePaths, oldText, newText):
+    for filePath in filePaths:
+        ReplaceText(filePath, oldText, newText)
+
+
 def AppendNewLineAfter(filePath, text, appendText):
     ReplaceText(filePath, text, f'{text}\n{appendText}\n')
 
@@ -139,16 +145,22 @@ def ModifyService():
         return result;
     }
 '''
-    ReplaceText(
-        'src/third_party/dart/sdk/lib/convert/json.dart',
+    # 不是源码路径了，gclient sync 后会删sdk源码，复制到其他，真正编译时，sky_engine又从sdk中拷贝
+    ReplaceTextInMultiFiles(
+        [
+            # 'src/third_party/dart/sdk/lib/convert/json.dart',
+            'src/flutter/prebuilts/linux-x64/dart-sdk/lib/convert/json.dart',
+            'src/flutter/prebuilts/linux-arm64/dart-sdk/lib/convert/json.dart',
+            'src/third_party/dart/tools/sdks/dart-sdk/lib/convert/json.dart',
+            'src/third_party/dart/sdk/lib/convert/json.dart',
+            'src/third_party/dart/third_party/pkg/protobuf/protobuf/lib/src/protobuf/json.dart',
+            'src/third_party/dart/third_party/pkg/protobuf/api_benchmark/lib/suites/json.dart',
+            'src/third_party/dart/third_party/pkg/test/pkgs/test_core/lib/src/runner/reporter/json.dart',
+            'src/third_party/dart/third_party/pkg/native/pkgs/native_assets_cli/lib/src/utils/json.dart',
+        ],
         'dynamic convert(String input) => _parseJson(input, _reviver);',
         jsonDecoderConvertModify,
     )
-    # ReplaceText(
-    #     'gen/dart-pkg/sky_engine/lib/convert/json.dart', # sync的时候从sdk copy过来的
-    #     'dynamic convert(String input) => _parseJson(input, _reviver);',
-    #     jsonDecoderConvertModify,
-    # )
 
     httpOpenUrlModify = '''
     Future<HttpClientRequest> openUrl(String method, Uri url) async {
@@ -156,22 +168,21 @@ def ModifyService():
         return _openUrl(method, url);
     }
 '''
-    ReplaceText(
-        'src/third_party/dart/sdk/lib/_http/http_impl.dart',
+    ReplaceTextInMultiFiles(
+        [
+            # 'src/third_party/dart/sdk/lib/_http/http_impl.dart',
+            'src/flutter/prebuilts/linux-x64/dart-sdk/lib/_http/http_impl.dart',
+            'src/flutter/prebuilts/linux-arm64/dart-sdk/lib/_http/http_impl.dart',
+            'src/third_party/dart/tools/sdks/dart-sdk/lib/_http/http_impl.dart',
+            'src/third_party/dart/sdk/lib/_http/http_impl.dart',
+        ],
         '''
   Future<HttpClientRequest> openUrl(String method, Uri url) =>
       _openUrl(method, url);
 ''',
         httpOpenUrlModify,
     )
-#     ReplaceText(
-#         'gen/dart-pkg/sky_engine/lib/_http/http_impl.dart',
-#         '''
-#   Future<HttpClientRequest> openUrl(String method, Uri url) =>
-#       _openUrl(method, url);
-# ''',
-#         httpOpenUrlModify,
-#     )
+
 
 def main():
     RemoveUnitTest()
