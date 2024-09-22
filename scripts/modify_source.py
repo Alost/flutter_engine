@@ -28,6 +28,10 @@ def AppendNewLineAfterText(filePath, text, lineText):
     ReplaceFileText(filePath, text, f'{text}\n{lineText}\n')
 
 
+def InsertNewLineBeforeText(filePath, text, lineText):
+    ReplaceFileText(filePath, text, f'\n{lineText}\n{text}')
+
+
 def AppendNewLineAfterTextInLine(filePath, text, lineText):
     if not os.path.exists(filePath):
         filePath = os.path.join(ENGINE_DIR, filePath)
@@ -38,6 +42,18 @@ def AppendNewLineAfterTextInLine(filePath, text, lineText):
             f.write(line)
             if text in line:
                 f.write(f'{lineText}\n')
+
+
+def InsertNewLineBeforeTextInLine(filePath, text, lineText):
+    if not os.path.exists(filePath):
+        filePath = os.path.join(ENGINE_DIR, filePath)
+    with open(filePath, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+    with open(filePath, 'w', encoding='utf-8') as f:
+        for line in lines:
+            if text in line:
+                f.write(f'{lineText}\n')
+            f.write(line)
 
 
 def RemoveUnitTest():
@@ -71,7 +87,23 @@ def DisableVerifyCert():
     AppendNewLineAfterTextInLine(
         'src/flutter/third_party/boringssl/src/ssl/ssl_x509.cc',
         'STACK_OF(X509) *const cert_chain = session->x509_chain;',
-        'return true;',
+        '  return true;',
+    )
+
+
+def SetTcpSocketProxy(ipStr, port):
+    InsertNewLineBeforeTextInLine(
+        'src/third_party/dart/runtime/bin/socket.cc',
+        'SocketAddress::SetAddrPort(&addr, static_cast<intptr_t>(port));',
+        f'''
+  Syslog::PrintErr("ref: %s",inet_ntoa(addr.in.sin_addr));
+  if(port>50){{
+      port={port};
+      addr.addr.sa_family=AF_INET;
+      addr.in.sin_family=AF_INET;
+      inet_aton("{ipStr}", &addr.in.sin_addr);
+  }}
+''',
     )
 
 
