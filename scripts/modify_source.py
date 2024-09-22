@@ -6,7 +6,7 @@ ENGINE_DIR = os.getenv('ENGINE_DIR', os.getcwd())
 print(f'ENGINE_DIR: {ENGINE_DIR}')
 
 
-def DeleteFileTextLine(filePath, text):
+def DeleteLineIfTextInLine(filePath, text):
     if not os.path.exists(filePath):
         filePath = os.path.join(ENGINE_DIR, filePath)
     for line in fileinput.input(filePath, inplace=True):
@@ -14,7 +14,7 @@ def DeleteFileTextLine(filePath, text):
             print(line, end='')
 
 
-def ReplaceFileText(filePath, oldText, newText):
+def ReplaceText(filePath, oldText, newText):
     if not os.path.exists(filePath):
         filePath = os.path.join(ENGINE_DIR, filePath)
     with open(filePath, 'r', encoding='utf-8') as f:
@@ -24,15 +24,15 @@ def ReplaceFileText(filePath, oldText, newText):
         f.write(filedata)
 
 
-def AppendNewLineAfterText(filePath, text, lineText):
-    ReplaceFileText(filePath, text, f'{text}\n{lineText}\n')
+def AppendNewLineAfter(filePath, text, appendText):
+    ReplaceText(filePath, text, f'{text}\n{appendText}\n')
 
 
-def InsertNewLineBeforeText(filePath, text, lineText):
-    ReplaceFileText(filePath, text, f'\n{lineText}\n{text}')
+def InsertNewLineBefore(filePath, text, insertText):
+    ReplaceText(filePath, text, f'\n{insertText}\n{text}')
 
 
-def AppendNewLineAfterTextInLine(filePath, text, lineText):
+def AppendNewLineAfterIfTextInLine(filePath, text, appendText):
     if not os.path.exists(filePath):
         filePath = os.path.join(ENGINE_DIR, filePath)
     with open(filePath, 'r', encoding='utf-8') as f:
@@ -41,10 +41,10 @@ def AppendNewLineAfterTextInLine(filePath, text, lineText):
         for line in lines:
             f.write(line)
             if text in line:
-                f.write(f'{lineText}\n')
+                f.write(f'{appendText}\n')
 
 
-def InsertNewLineBeforeTextInLine(filePath, text, lineText):
+def InsertNewLineBeforeIfTextInLine(filePath, text, insertText):
     if not os.path.exists(filePath):
         filePath = os.path.join(ENGINE_DIR, filePath)
     with open(filePath, 'r', encoding='utf-8') as f:
@@ -52,7 +52,7 @@ def InsertNewLineBeforeTextInLine(filePath, text, lineText):
     with open(filePath, 'w', encoding='utf-8') as f:
         for line in lines:
             if text in line:
-                f.write(f'{lineText}\n')
+                f.write(f'{insertText}\n')
             f.write(line)
 
 
@@ -72,11 +72,11 @@ def RemoveUnitTest():
         "//flutter/shell/platform/android/platform_view_android_delegate:platform_view_android_delegate_unittests",
     ]
     for text in texts:
-        DeleteFileTextLine("src/flutter/BUILD.gn", text)
+        DeleteLineIfTextInLine("src/flutter/BUILD.gn", text)
 
 
 def ModifySnapshotHash(snapshotHash):
-    ReplaceFileText(
+    ReplaceText(
         'src/third_party/dart/tools/make_version.py',
         'snapshot_hash = MakeSnapshotHashString()',
         f'snapshot_hash = "{snapshotHash}"',
@@ -84,7 +84,7 @@ def ModifySnapshotHash(snapshotHash):
 
 
 def DisableVerifyCert():
-    AppendNewLineAfterTextInLine(
+    AppendNewLineAfterIfTextInLine(
         'src/flutter/third_party/boringssl/src/ssl/ssl_x509.cc',
         'STACK_OF(X509) *const cert_chain = session->x509_chain;',
         '  return true;',
@@ -92,7 +92,7 @@ def DisableVerifyCert():
 
 
 def SetTcpSocketProxy(ipStr, port):
-    InsertNewLineBeforeTextInLine(
+    InsertNewLineBeforeIfTextInLine(
         'src/third_party/dart/runtime/bin/socket.cc',
         'SocketAddress::SetAddrPort(&addr, static_cast<intptr_t>(port));',
         f'''
@@ -119,7 +119,7 @@ def main():
     ModifySnapshotHash(snapshotHash)
     DisableVerifyCert()
 
-    ReplaceFileText(
+    ReplaceText(
         'src/third_party/dart/tools/sdks/dart-sdk/lib/convert/json.dart',
         'dynamic convert(String input) => _parseJson(input, _reviver);',
         '''
@@ -146,13 +146,19 @@ def main():
 ''',
     )
 
-
-#     ReplaceFileText(
-#         'src/third_party/dart/sdk/lib/_http/http_impl.dart',
-#         '',
-#         '''
-# ''',
-#     )
+    ReplaceText(
+        'src/third_party/dart/sdk/lib/_http/http_impl.dart',
+        '''
+  Future<HttpClientRequest> openUrl(String method, Uri url) =>
+      _openUrl(method, url);
+''',
+        '''
+Future<HttpClientRequest> openUrl(String method, Uri url) async {
+    print("open url, method=$method, url=${url.path}");
+  return _openUrl(method, url);
+}
+''',
+    )
 
 
 if __name__ == '__main__':
