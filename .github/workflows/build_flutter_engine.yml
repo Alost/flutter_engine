@@ -60,6 +60,6 @@ jobs:
           body: |
             ${{ github.event.head_commit.message }}
           files: |
-            flutter/engine/src/lib.zip
+            flutter/engine/src/lib.tar.gz
           draft: false
           prerelease: false
