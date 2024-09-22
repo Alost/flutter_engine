@@ -122,7 +122,7 @@ def ModifyService():
         'dynamic convert(String input) => _parseJson(input, _reviver);',
         '''
     dynamic convert(String input) {
-        var result = _parseJson(xxx, _reviver);
+        var result = _parseJson(input, _reviver);
         if (result is Map<String, dynamic>) {
             if (result.containsKey('data') && result['data'] is Map<String, dynamic>) {
                 if result['data'].containsKey('trialVip') {
