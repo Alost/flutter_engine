@@ -42,7 +42,7 @@ def RemoveUnitTest():
 
 
 def main():
-    RemoveAndroidUnitTest()
+    RemoveUnitTest()
 
 
 if __name__ == '__main__':
