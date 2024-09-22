@@ -16,6 +16,6 @@ fi
 
 cd $ROOT_DIR/flutter/engine
 
-python $ROOT_DIR/scripts/modify_source.py
+python3 $ROOT_DIR/scripts/modify_source.py
 
 log "modify source finish"
