@@ -5,11 +5,11 @@ source ${ROOT_DIR:-$PWD}/scripts/set_env.sh
 log "prepare source start"
 
 # depot_tools 工具
-mkdir $ROOT_DIR/flutter; cd $ROOT_DIR/flutter;
+mkdir -p $ROOT_DIR/flutter; cd $ROOT_DIR/flutter;
 git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools.git || true
 
 # flutter engine 代码
-mkdir $ROOT_DIR/flutter/source; cd $ROOT_DIR/flutter/source
+mkdir -p $ROOT_DIR/flutter/source; cd $ROOT_DIR/flutter/source
 git clone https://github.com/flutter/engine.git || true
 
 # 切换版本
@@ -18,7 +18,7 @@ git config --global user.email "flutter@example.com" && git config --global user
 git add . && git commit -am "modify"
 
 # 同步依赖
-mkdir $ROOT_DIR/flutter/engine; cd $ROOT_DIR/flutter/engine;
+mkdir -p $ROOT_DIR/flutter/engine; cd $ROOT_DIR/flutter/engine;
 cat <<EOL > .gclient
 solutions = [
   {
