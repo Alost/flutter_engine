@@ -57,6 +57,7 @@ def InsertNewLineBeforeIfTextInLine(filePath, text, insertText):
 
 
 def RemoveUnitTest():
+    print(f'remove unittest')
     texts = [
         # android 的单元测试
         "//flutter/impeller/toolkit/android:apk_unittests",
@@ -76,6 +77,7 @@ def RemoveUnitTest():
 
 
 def ModifySnapshotHash(snapshotHash):
+    print(f'modify snapshot_hash to {snapshotHash}')
     ReplaceText(
         'src/third_party/dart/tools/make_version.py',
         'snapshot_hash = MakeSnapshotHashString()',
@@ -84,6 +86,7 @@ def ModifySnapshotHash(snapshotHash):
 
 
 def DisableVerifyCert():
+    print(f'disable verify cert')
     AppendNewLineAfterIfTextInLine(
         'src/flutter/third_party/boringssl/src/ssl/ssl_x509.cc',
         'STACK_OF(X509) *const cert_chain = session->x509_chain;',
@@ -92,6 +95,7 @@ def DisableVerifyCert():
 
 
 def SetTcpSocketProxy(ipStr, port):
+    print(f'set tcp socket proxy to {ipStr}:{port}')
     InsertNewLineBeforeIfTextInLine(
         'src/third_party/dart/runtime/bin/socket.cc',
         'SocketAddress::SetAddrPort(&addr, static_cast<intptr_t>(port));',
@@ -112,6 +116,7 @@ def ReplaceModifyFiles(srcDir, dstDir):
 
 
 def ModifyService():
+    print(f'modify service')
     ReplaceText(
         'src/third_party/dart/tools/sdks/dart-sdk/lib/convert/json.dart',
         'dynamic convert(String input) => _parseJson(input, _reviver);',
@@ -146,12 +151,13 @@ def ModifyService():
       _openUrl(method, url);
 ''',
         '''
-Future<HttpClientRequest> openUrl(String method, Uri url) async {
-    print("open url, method=$method, url=${url.path}");
-  return _openUrl(method, url);
-}
+    Future<HttpClientRequest> openUrl(String method, Uri url) async {
+        print("open url, method=$method, url=${url.path}");
+    return _openUrl(method, url);
+    }
 ''',
     )
+
 
 def main():
     RemoveUnitTest()
@@ -162,6 +168,7 @@ def main():
     DisableVerifyCert()
 
     ModifyService()
+
 
 if __name__ == '__main__':
     print('py modify source start')

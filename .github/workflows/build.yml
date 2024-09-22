@@ -23,7 +23,7 @@ jobs:
       - uses: actions/checkout@v4
 
       # touch continue
-      # - uses: fawazahmed0/action-debug-vscode@main
+      - uses: fawazahmed0/action-debug-vscode@main
 
       - uses: ./.github/actions/free_disk_space
         if: ${{ env.BUILD_TEST != 'true'}}
