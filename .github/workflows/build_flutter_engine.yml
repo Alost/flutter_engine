@@ -54,6 +54,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@v1
+        # Settings -> Actions -> General -> Workflow permissions -> Read and write permissions
         with:
           tag_name: ${{ github.ref }}
           name: ${{ env.VERSION }}
