@@ -8,6 +8,9 @@ cd $ENGINE_DIR
 
 find . -type d -name ".git" -execdir sh -c 'git diff --quiet || git stash' \;
 
+find -name json.dart
+find -name http_impl.dart
+
 python3 $ROOT_DIR/scripts/modify_source.py
 
 echo "========================================Diff Start======================================"
