@@ -10,6 +10,21 @@ git clone --depth 1 https://chromium.googlesource.com/chromium/tools/depot_tools
 
 # 下载代码和依赖
 mkdir -p $ROOT_DIR/flutter/engine; cd $ROOT_DIR/flutter/engine;
+cat <<EOL > .gclient
+solutions = [
+  {
+    "custom_deps": {},
+    "deps_file": "DEPS",
+    "managed": False,
+    "name": "src/flutter",
+    "safesync_url": "",
+    "url": "https://github.com/flutter/engine.git",
+    'custom_vars': {
+		'download_dart_sdk': False,
+	},
+  },
+]
+EOL
 fetch --nohooks flutter
 
 # 切换版本
