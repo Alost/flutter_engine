@@ -145,7 +145,7 @@ def ModifyService():
         return result;
     }
 '''
-    # 不是源码路径了，gclient sync 后会删sdk源码，复制到其他，真正编译时，sky_engine又从sdk中拷贝
+    # 不是源码路径了，gclient sync 后会删sdk源码，复制到其他，真正编译时，sky_engine又从sdk中拷贝，感觉应该只改sdk就行了的
     ReplaceTextInMultiFiles(
         [
             # 'src/third_party/dart/sdk/lib/convert/json.dart',
