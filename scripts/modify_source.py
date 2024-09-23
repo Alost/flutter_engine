@@ -32,6 +32,7 @@ def ReplaceTextInMultiFiles(filePaths, oldText, newText):
 
 def ReplaceTextBySearchFile(fileName, oldText, newText):
     filePaths = ExecShell(f'find . -name {fileName}', ENGINE_DIR).splitlines()
+    print(f'search {fileName} results: {filePaths}')
     ReplaceTextInMultiFiles(filePaths, oldText, newText)
 
 
@@ -139,54 +140,7 @@ def ReplaceModifyFiles(srcDir, dstDir):
 def ModifyService():
     print(f'modify service')
 
-    jsonDecoderConvertModify = '''
-    dynamic convert(String input) {
-        return input;
-        input = input.replaceAll("1970-01-01 00:00:00", "2025-04-24 13:47:32");
-        input = input.replaceAll("2024-04-24 13:47:32", "2025-04-24 13:47:32");
-        var result = _parseJson(input, _reviver);
-        if (result is Map<String, dynamic>) {
-            if (result.containsKey('data') && result['data'] is Map<String, dynamic>) {
-                if (result['data'].containsKey('trialVip')) {
-                    print("get user info");
-                    final vipTime = "2024-01-01 00:00:00";
-                    final svipTime = "2024-02-01 00:00:00";
-                    result['data']['trialVip'] = 0;
-                    result['data']['vipTime'] = vipTime;
-                    result['data']['maColorKlineDeadline'] = vipTime;
-                    result['data']['svipTime'] = svipTime;
-                    result['data']['pureSvipTime'] = svipTime;
-                } else if (result['data'].containsKey('androidDownloadUrl')) {
-                    print("get version info");
-                }
-            }
-        }
-        return result;
-    }
-'''
-    # 不是源码路径了，gclient sync 后会删sdk源码，复制到其他，真正编译时，sky_engine又从sdk中拷贝，感觉应该只改sdk就行了的
-    # 'src/third_party/dart/sdk/lib/convert/json.dart'
-    ReplaceTextBySearchFile(
-        'json.dart',
-        'dynamic convert(String input) => _parseJson(input, _reviver);',
-        jsonDecoderConvertModify
-    )
-
-    httpOpenUrlModify = '''
-    Future<HttpClientRequest> openUrl(String method, Uri url) async {
-        print("open url, method=$method, url=${url.path}");
-        return _openUrl(method, url);
-    }
-'''
-    # 'src/third_party/dart/sdk/lib/_http/http_impl.dart'
-    ReplaceTextBySearchFile(
-        'http_impl.dart',
-        '''
-  Future<HttpClientRequest> openUrl(String method, Uri url) =>
-      _openUrl(method, url);
-''',
-        httpOpenUrlModify,
-    )
+    # dark sdk 的 dart 代码是在 Dark VM 中运行的，flutter build 时会被 AOT 编译进 libapp.so，不在 libflutter.so 中，所以修改dart代码不会生效
 
 
 def main():
