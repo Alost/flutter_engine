@@ -25,12 +25,18 @@ solutions = [
   },
 ]
 EOL
-gclient sync
+gclient sync --nohooks
 # fetch --nohooks flutter
+
+find -name json.dart
+find -name http_impl.dart
 
 # 切换版本
 cd $ROOT_DIR/flutter/engine/src/flutter
 git checkout $VERSION
+
+find -name json.dart
+find -name http_impl.dart
 
 # 下载依赖
 gclient sync -D --with_branch_heads --with_tags

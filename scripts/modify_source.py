@@ -30,6 +30,11 @@ def ReplaceTextInMultiFiles(filePaths, oldText, newText):
         ReplaceText(filePath, oldText, newText)
 
 
+def ReplaceTextBySearchFile(fileName, oldText, newText):
+    filePaths = ExecShell(f'find . -name {fileName}', ENGINE_DIR).splitlines()
+    ReplaceTextInMultiFiles(filePaths, oldText, newText)
+
+
 def AppendNewLineAfter(filePath, text, appendText):
     ReplaceText(filePath, text, f'{text}\n{appendText}\n')
 
@@ -93,7 +98,7 @@ def FixSnapshotHash(snapshotHash=None):
             'python3 tools/make_version.py --format {{SNAPSHOT_HASH}}', os.path.join(ENGINE_DIR, 'src/third_party/dart')
         )
 
-    print(f'modify snapshot_hash to {snapshotHash}')
+    print(f'fix snapshot_hash to {snapshotHash}')
     ReplaceText(
         'src/third_party/dart/tools/make_version.py',
         'snapshot_hash = MakeSnapshotHashString()',
@@ -159,20 +164,11 @@ def ModifyService():
     }
 '''
     # 不是源码路径了，gclient sync 后会删sdk源码，复制到其他，真正编译时，sky_engine又从sdk中拷贝，感觉应该只改sdk就行了的
-    ReplaceTextInMultiFiles(
-        [
-            'src/third_party/dart/sdk/lib/convert/json.dart',
-            # 'src/flutter/prebuilts/linux-x64/dart-sdk/lib/convert/json.dart',
-            # 'src/flutter/prebuilts/linux-arm64/dart-sdk/lib/convert/json.dart',
-            # 'src/third_party/dart/tools/sdks/dart-sdk/lib/convert/json.dart',
-            # 'src/third_party/dart/sdk/lib/convert/json.dart',
-            # 'src/third_party/dart/third_party/pkg/protobuf/protobuf/lib/src/protobuf/json.dart',
-            # 'src/third_party/dart/third_party/pkg/protobuf/api_benchmark/lib/suites/json.dart',
-            # 'src/third_party/dart/third_party/pkg/test/pkgs/test_core/lib/src/runner/reporter/json.dart',
-            # 'src/third_party/dart/third_party/pkg/native/pkgs/native_assets_cli/lib/src/utils/json.dart',
-        ],
+    # 'src/third_party/dart/sdk/lib/convert/json.dart'
+    ReplaceTextBySearchFile(
+        'json.dart',
         'dynamic convert(String input) => _parseJson(input, _reviver);',
-        jsonDecoderConvertModify,
+        jsonDecoderConvertModify
     )
 
     httpOpenUrlModify = '''
@@ -181,14 +177,9 @@ def ModifyService():
         return _openUrl(method, url);
     }
 '''
-    ReplaceTextInMultiFiles(
-        [
-            'src/third_party/dart/sdk/lib/_http/http_impl.dart',
-            # 'src/flutter/prebuilts/linux-x64/dart-sdk/lib/_http/http_impl.dart',
-            # 'src/flutter/prebuilts/linux-arm64/dart-sdk/lib/_http/http_impl.dart',
-            # 'src/third_party/dart/tools/sdks/dart-sdk/lib/_http/http_impl.dart',
-            # 'src/third_party/dart/sdk/lib/_http/http_impl.dart',
-        ],
+    # 'src/third_party/dart/sdk/lib/_http/http_impl.dart'
+    ReplaceTextBySearchFile(
+        'http_impl.dart',
         '''
   Future<HttpClientRequest> openUrl(String method, Uri url) =>
       _openUrl(method, url);
