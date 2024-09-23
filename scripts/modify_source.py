@@ -1,6 +1,7 @@
 import fileinput
 import os
 import shutil
+import subprocess
 
 ENGINE_DIR = os.getenv('ENGINE_DIR', os.getcwd())
 print(f'ENGINE_DIR: {ENGINE_DIR}')
@@ -61,6 +62,11 @@ def InsertNewLineBeforeIfTextInLine(filePath, text, insertText):
             f.write(line)
 
 
+def ExecShell(command, directory):
+    result = subprocess.run(command, cwd=directory, shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    return result.stdout
+
+
 def RemoveUnitTest():
     print(f'remove unittest')
     texts = [
@@ -81,7 +87,12 @@ def RemoveUnitTest():
         DeleteLineIfTextInLine("src/flutter/BUILD.gn", text)
 
 
-def ModifySnapshotHash(snapshotHash):
+def FixSnapshotHash(snapshotHash=None):
+    if snapshotHash is None:
+        snapshotHash = ExecShell(
+            'python3 tools/make_version.py --format {{SNAPSHOT_HASH}}', os.path.join(ENGINE_DIR, 'src/third_party/dart')
+        )
+
     print(f'modify snapshot_hash to {snapshotHash}')
     ReplaceText(
         'src/third_party/dart/tools/make_version.py',
@@ -150,15 +161,15 @@ def ModifyService():
     # 不是源码路径了，gclient sync 后会删sdk源码，复制到其他，真正编译时，sky_engine又从sdk中拷贝，感觉应该只改sdk就行了的
     ReplaceTextInMultiFiles(
         [
-            # 'src/third_party/dart/sdk/lib/convert/json.dart',
-            'src/flutter/prebuilts/linux-x64/dart-sdk/lib/convert/json.dart',
-            'src/flutter/prebuilts/linux-arm64/dart-sdk/lib/convert/json.dart',
-            'src/third_party/dart/tools/sdks/dart-sdk/lib/convert/json.dart',
             'src/third_party/dart/sdk/lib/convert/json.dart',
-            'src/third_party/dart/third_party/pkg/protobuf/protobuf/lib/src/protobuf/json.dart',
-            'src/third_party/dart/third_party/pkg/protobuf/api_benchmark/lib/suites/json.dart',
-            'src/third_party/dart/third_party/pkg/test/pkgs/test_core/lib/src/runner/reporter/json.dart',
-            'src/third_party/dart/third_party/pkg/native/pkgs/native_assets_cli/lib/src/utils/json.dart',
+            # 'src/flutter/prebuilts/linux-x64/dart-sdk/lib/convert/json.dart',
+            # 'src/flutter/prebuilts/linux-arm64/dart-sdk/lib/convert/json.dart',
+            # 'src/third_party/dart/tools/sdks/dart-sdk/lib/convert/json.dart',
+            # 'src/third_party/dart/sdk/lib/convert/json.dart',
+            # 'src/third_party/dart/third_party/pkg/protobuf/protobuf/lib/src/protobuf/json.dart',
+            # 'src/third_party/dart/third_party/pkg/protobuf/api_benchmark/lib/suites/json.dart',
+            # 'src/third_party/dart/third_party/pkg/test/pkgs/test_core/lib/src/runner/reporter/json.dart',
+            # 'src/third_party/dart/third_party/pkg/native/pkgs/native_assets_cli/lib/src/utils/json.dart',
         ],
         'dynamic convert(String input) => _parseJson(input, _reviver);',
         jsonDecoderConvertModify,
@@ -172,11 +183,11 @@ def ModifyService():
 '''
     ReplaceTextInMultiFiles(
         [
-            # 'src/third_party/dart/sdk/lib/_http/http_impl.dart',
-            'src/flutter/prebuilts/linux-x64/dart-sdk/lib/_http/http_impl.dart',
-            'src/flutter/prebuilts/linux-arm64/dart-sdk/lib/_http/http_impl.dart',
-            'src/third_party/dart/tools/sdks/dart-sdk/lib/_http/http_impl.dart',
             'src/third_party/dart/sdk/lib/_http/http_impl.dart',
+            # 'src/flutter/prebuilts/linux-x64/dart-sdk/lib/_http/http_impl.dart',
+            # 'src/flutter/prebuilts/linux-arm64/dart-sdk/lib/_http/http_impl.dart',
+            # 'src/third_party/dart/tools/sdks/dart-sdk/lib/_http/http_impl.dart',
+            # 'src/third_party/dart/sdk/lib/_http/http_impl.dart',
         ],
         '''
   Future<HttpClientRequest> openUrl(String method, Uri url) =>
@@ -188,10 +199,7 @@ def ModifyService():
 
 def main():
     RemoveUnitTest()
-
-    snapshotHash = 'd20a1be77c3d3c41b2a5accaee1ce549'
-
-    ModifySnapshotHash(snapshotHash)
+    FixSnapshotHash()
     DisableVerifyCert()
 
     ModifyService()
