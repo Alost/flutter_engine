@@ -25,7 +25,8 @@ solutions = [
   },
 ]
 EOL
-fetch --nohooks flutter
+gclient sync
+# fetch --nohooks flutter
 
 # 切换版本
 cd $ROOT_DIR/flutter/engine/src/flutter
